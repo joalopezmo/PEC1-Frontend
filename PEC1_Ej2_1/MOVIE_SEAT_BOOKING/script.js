@@ -8,47 +8,54 @@ const movieSelect = document.getElementById('movie');
 const currencySelect = document.getElementById('currency');
 
 //llamado del precio de la pelicula
-let targetPrice = document.getElementById("movie").getElementsByClassName("moviePrice");
-
 
 populateUI();
 
 
 let ticketPrice = +movieSelect.value; //variable no constante
-/*
-let actualCurrency = currencySelect.value;
 
-console.log(actualCurrency);
 
-/*
+
 function selectionCurrency(){
 
     //revisar currency
+    let actualCurrency = currencySelect.value;
 
-    fetch(`https://v6.exchangerate-api.com/v6/ed4db7af990eefa738df0f61/latest/${actualCurrency}`)
+   // console.log(actualCurrency);
+
+    fetch(`https://v6.exchangerate-api.com/v6/ed4db7af990eefa738df0f61/latest/USD`)
         .then(res => res.json())      
             
         .then(data => {
                 
-            const rate = data.conversion_rates['USD'];
-            console.log(rate);
+            const rate = data.conversion_rates[actualCurrency];
+
+            //console.log(rate);
            //rateEl.innerText =`1 ${currency_one} = ${rate} ${currency_two}`;
+
+           let targetPrice = document.getElementById('movie').options[0].innerHTML
+
+           console.log(targetPrice);
 
            let ChangePrice = (ticketPrice * rate).toFixed(2);
 
-           targetPrice.innerText = ChangePrice;
+           //targetPrice.innerText = ChangePrice;
 
-           ticketPrice = targetPrice;
+           //ticketPrice = targetPrice;
             
             
         });
 
+    
 
 
 
 
 
-}*/
+
+
+
+}
 
 function setMovieData(movieIndex, moviePrice){
     localStorage.setItem('selectedMovieIndex', movieIndex);
@@ -90,10 +97,11 @@ function populateUI(){
 }
 
 currencySelect.addEventListener('change', e =>{
-    ticketPrice = +e.target.value; //agregarle el mas es como si hicieramos el parse int, para convertir el valor interno de la variable en numero
-    setMovieData(e.target.selectedIndex, e.target.value);
+    
+    selectionCurrency();
+    //ticketPrice = +e.target.value; //agregarle el mas es como si hicieramos el parse int, para convertir el valor interno de la variable en numero
    
-    updateSeletedCount();
+    //updateSeletedCount();
 
 })
 
