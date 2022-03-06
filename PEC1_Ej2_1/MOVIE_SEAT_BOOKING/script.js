@@ -19,6 +19,8 @@ let ticketPrice = +movieSelect.value; //variable no constante
 
 function selectionCurrency(){
 
+    updateSeletedCount();
+
     let actualCurrency = currencySelect.value;
 
 
@@ -60,12 +62,10 @@ function selectionCurrency(){
             movies.forEach(element => {
                 movieSelect.appendChild(element);
             });
-            
-            updateSeletedCount();
 
             text.innerText = actualCurrency;
 
-
+           
         });
 
 
@@ -110,10 +110,10 @@ function populateUI(){
 
 }
 
-currencySelect.addEventListener('change', e =>{
+currencySelect.addEventListener('click', e =>{
 
     selectionCurrency();
-    
+
     updateSeletedCount();
 
 })
