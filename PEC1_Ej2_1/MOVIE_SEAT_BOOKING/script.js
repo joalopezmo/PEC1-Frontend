@@ -4,6 +4,8 @@ const count = document.getElementById('count');
 const total = document.getElementById('total');
 const movieSelect = document.getElementById('movie');
 
+const text = document.getElementById('text'); //nuevo
+
 //Llamando la moneda
 const currencySelect = document.getElementById('currency');
 
@@ -15,13 +17,10 @@ populateUI();
 let ticketPrice = +movieSelect.value; //variable no constante
 
 
-
 function selectionCurrency(){
 
-    //revisar currency
     let actualCurrency = currencySelect.value;
 
-   // console.log(actualCurrency);
 
     fetch(`https://v6.exchangerate-api.com/v6/ed4db7af990eefa738df0f61/latest/USD`)
         .then(res => res.json())      
@@ -30,29 +29,44 @@ function selectionCurrency(){
                 
             const rate = data.conversion_rates[actualCurrency];
 
-            //console.log(rate);
-           //rateEl.innerText =`1 ${currency_one} = ${rate} ${currency_two}`;
+            movieSelect.innerHTML = "";
 
-           let targetPrice = document.getElementById('movie').options[0].innerHTML
+            let movie1 = document.createElement('option');
 
-           console.log(targetPrice);
+            movie1.value = (10 * rate).toFixed(1); 
 
-           let ChangePrice = (ticketPrice * rate).toFixed(2);
+            movie1.innerText = `Avenger: Endgame (${movie1.value} ${actualCurrency})` 
 
-           //targetPrice.innerText = ChangePrice;
+            let movie2 = document.createElement('option');
 
-           //ticketPrice = targetPrice;
+            movie2.value = (12 * rate).toFixed(1); 
+
+            movie2.innerText = `Joker (${movie2.value} ${actualCurrency})`            
+
+            let movie3 = document.createElement('option');
+
+            movie3.value = (8 * rate).toFixed(1); 
+
+            movie3.innerText = `Toy story (${movie3.value} ${actualCurrency})`            
+
+            let movie4 = document.createElement('option');
+
+            movie4.value = (9 * rate).toFixed(1); 
+
+            movie4.innerText = `The lion king (${movie4.value} ${actualCurrency})`            
+
+            let movies = [movie1, movie2, movie3, movie4];
+
+            movies.forEach(element => {
+                movieSelect.appendChild(element);
+            });
             
-            
+            updateSeletedCount();
+
+            text.innerText = actualCurrency;
+
+
         });
-
-    
-
-
-
-
-
-
 
 
 }
@@ -72,7 +86,7 @@ function updateSeletedCount(){
     const selectedSeatsCount = selectedSeats.length;
 
     count.innerText = selectedSeatsCount;
-    total.innerText = selectedSeatsCount * ticketPrice;
+    total.innerText = (selectedSeatsCount * ticketPrice).toFixed(1);
 }
 
 function populateUI(){
@@ -97,11 +111,10 @@ function populateUI(){
 }
 
 currencySelect.addEventListener('change', e =>{
-    
+
     selectionCurrency();
-    //ticketPrice = +e.target.value; //agregarle el mas es como si hicieramos el parse int, para convertir el valor interno de la variable en numero
-   
-    //updateSeletedCount();
+    
+    updateSeletedCount();
 
 })
 
@@ -120,7 +133,6 @@ container.addEventListener('click', (e) => {
         updateSeletedCount();
     };
 } )
-
 
 updateSeletedCount();
 
